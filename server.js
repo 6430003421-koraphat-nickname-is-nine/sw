@@ -6,6 +6,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const {xss} = require('express-xss-sanitizer');
 const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
 
 const cookieParser = require('cookie-parser');
 
@@ -21,6 +22,8 @@ const appointments = require('./routes/appointments');
 const auth = require('./routes/auth');
 
 const app = express();
+
+// Enable CORS
 app.use(cors())
 
 
@@ -51,6 +54,10 @@ const limiter = rateLimit({
 });
 
 app.use(limiter)
+
+// Prevent http param pollutions
+
+app.use(hpp());
 
 // Mount routers
 app.use('/api/v1/hospitals' , hospitals);
