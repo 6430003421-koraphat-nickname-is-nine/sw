@@ -4,7 +4,7 @@ const connectDB = require('./config/db');
 const cors = require('cors');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
-
+const {xss} = require('express-xss-sanitizer');
 
 const cookieParser = require('cookie-parser');
 
@@ -37,6 +37,10 @@ app.use(mongoSanitize());
 // Set security headers
 
 app.use(helmet());
+
+//preventr XSS attack
+
+app.use(xss());
 
 // Mount routers
 app.use('/api/v1/hospitals' , hospitals);
