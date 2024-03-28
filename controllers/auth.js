@@ -33,11 +33,12 @@ exports.register = async (req , res , next) => {
 
 exports.login = async (req,res,next) =>{
 
-    const {email , password} = req.body;
+    try{
+        const {email , password} = req.body;
 
     // Validate email & password
     if (!email || ! password){
-        return res.status(400).json({success : false , msg: 'Please provie an email and password'});
+        return res.status(400).json({success : false , msg: 'Please provide an email and password'});
     }
 
     const user = await User.findOne({email}).select('+password');
@@ -57,6 +58,12 @@ exports.login = async (req,res,next) =>{
     }
 
     sendTokenResponse(user , 200 , res);
+    }catch(err){
+        return res.status(401).json({
+            success:false,
+         msg:'Cannot convert email or password to string'
+        });
+}
 };
 
 //@desc     Logout user
