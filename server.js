@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const cors = require('cors');
 const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
+
 
 const cookieParser = require('cookie-parser');
 
@@ -31,6 +33,10 @@ app.use(cookieParser());
 // Sanitize Data 
 
 app.use(mongoSanitize());
+
+// Set security headers
+
+app.use(helmet());
 
 // Mount routers
 app.use('/api/v1/hospitals' , hospitals);
