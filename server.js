@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const {xss} = require('express-xss-sanitizer');
+const rateLimit = require('express-rate-limit');
 
 const cookieParser = require('cookie-parser');
 
@@ -38,9 +39,18 @@ app.use(mongoSanitize());
 
 app.use(helmet());
 
-//preventr XSS attack
+//prevent XSS attack
 
 app.use(xss());
+
+// Rate Limiting
+
+const limiter = rateLimit({
+    windowsMs : 10*60*1000,//10 mins
+    max: 100
+});
+
+app.use(limiter)
 
 // Mount routers
 app.use('/api/v1/hospitals' , hospitals);
