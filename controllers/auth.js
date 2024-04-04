@@ -60,8 +60,8 @@ exports.login = async (req,res,next) =>{
     sendTokenResponse(user , 200 , res);
     }catch(err){
         return res.status(401).json({
-            success:false,
-         msg:'Cannot convert email or password to string'
+        success:false,
+        msg:'Cannot convert email or password to string'
         });
 }
 };
